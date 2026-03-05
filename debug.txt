@@ -475,3 +475,195 @@
 [0:16:33]   -> MAIN SLIDE (by area)
 [0:16:33]   -> NOTES (by area)
 [0:16:33] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[0:17:25] RE-INIT: starting
+[0:17:27] OUR PANEL rect=[0,197,356,1353]
+[0:17:27]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[376,170,382,1353]
+[0:17:27]   -> VERTICAL SPLITTER
+[0:17:27]   SIB[1] cls=splitterBar title= w=2178 h=6 vis=1 rect=[382,1284,2560,1290]
+[0:17:27]   -> HORIZONTAL SPLITTER
+[0:17:27]   SIB[2] cls=paneClassDC title=Slide w=2158 h=1114 vis=1 rect=[382,170,2540,1284]
+[0:17:27]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[0:17:27]   SIB[4] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1284,2560,1284]
+[0:17:27]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[356,197,376,1353]
+[0:17:27]   -> GUTTER
+[0:17:27]   SIB[7] cls=paneClass title= w=376 h=0 vis=1 rect=[0,1353,376,1353]
+[0:17:27]   SIB[8] cls=paneClass title= w=376 h=27 vis=1 rect=[0,170,376,197]
+[0:17:27]   -> TAB BAR
+[0:17:27]   SIB[9] cls=paneClassDC title=Slide Notes w=2158 h=63 vis=1 rect=[382,1290,2540,1353]
+[0:17:27]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:17:27]   SIB[11] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1353,2560,1353]
+[0:17:27]   -> MAIN SLIDE (by area)
+[0:17:27]   -> NOTES (by area)
+[0:17:27] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[0:29:2] OUR PANEL rect=[0,197,348,1353]
+[0:29:2]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[368,170,374,1353]
+[0:29:2]   -> VERTICAL SPLITTER
+[0:29:2]   SIB[1] cls=splitterBar title= w=2186 h=6 vis=1 rect=[374,1284,2560,1290]
+[0:29:2]   -> HORIZONTAL SPLITTER
+[0:29:2]   SIB[2] cls=paneClassDC title=Slide w=2166 h=1114 vis=1 rect=[374,170,2540,1284]
+[0:29:2]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[0:29:2]   SIB[4] cls=paneClass title= w=2186 h=0 vis=1 rect=[374,1284,2560,1284]
+[0:29:2]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[348,197,368,1353]
+[0:29:2]   -> GUTTER
+[0:29:2]   SIB[7] cls=paneClass title= w=368 h=0 vis=1 rect=[0,1353,368,1353]
+[0:29:2]   SIB[8] cls=paneClass title= w=368 h=27 vis=1 rect=[0,170,368,197]
+[0:29:2]   -> TAB BAR
+[0:29:2]   SIB[9] cls=paneClassDC title=Slide Notes w=2166 h=63 vis=1 rect=[374,1290,2540,1353]
+[0:29:2]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:29:2]   SIB[11] cls=paneClass title= w=2186 h=0 vis=1 rect=[374,1353,2560,1353]
+[0:29:2]   -> MAIN SLIDE (by area)
+[0:29:2]   -> NOTES (by area)
+[0:29:2] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[0:30:57] RE-INIT: starting
+[0:30:59] OUR PANEL rect=[0,197,123,1353]
+[0:30:59]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[143,170,149,1353]
+[0:30:59]   -> VERTICAL SPLITTER
+[0:30:59]   SIB[1] cls=splitterBar title= w=2411 h=6 vis=1 rect=[149,1284,2560,1290]
+[0:30:59]   -> HORIZONTAL SPLITTER
+[0:30:59]   SIB[2] cls=paneClassDC title=Slide w=2391 h=1114 vis=1 rect=[149,170,2540,1284]
+[0:30:59]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[0:30:59]   SIB[4] cls=paneClass title= w=2411 h=0 vis=1 rect=[149,1284,2560,1284]
+[0:30:59]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[123,197,143,1353]
+[0:30:59]   -> GUTTER
+[0:30:59]   SIB[7] cls=paneClass title= w=143 h=0 vis=1 rect=[0,1353,143,1353]
+[0:30:59]   SIB[8] cls=paneClass title= w=143 h=27 vis=1 rect=[0,170,143,197]
+[0:30:59]   -> TAB BAR
+[0:30:59]   SIB[9] cls=paneClassDC title=Slide Notes w=2391 h=63 vis=1 rect=[149,1290,2540,1353]
+[0:30:59]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:30:59]   SIB[11] cls=paneClass title= w=2411 h=0 vis=1 rect=[149,1353,2560,1353]
+[0:30:59]   -> MAIN SLIDE (by area)
+[0:30:59]   -> NOTES (by area)
+[0:30:59] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[0:42:47] OUR PANEL rect=[0,197,340,1353]
+[0:42:47]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[340,170,346,1353]
+[0:42:47]   -> VERTICAL SPLITTER
+[0:42:47]   SIB[1] cls=splitterBar title= w=2214 h=6 vis=1 rect=[346,1284,2560,1290]
+[0:42:47]   -> HORIZONTAL SPLITTER
+[0:42:47]   SIB[2] cls=paneClassDC title=Slide w=2214 h=1114 vis=1 rect=[346,170,2560,1284]
+[0:42:47]   SIB[3] cls=paneClass title= w=0 h=1114 vis=1 rect=[2560,170,2560,1284]
+[0:42:47]   SIB[4] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1284,2560,1284]
+[0:42:47]   SIB[6] cls=paneClass title= w=0 h=1156 vis=1 rect=[340,197,340,1353]
+[0:42:47]   -> GUTTER
+[0:42:47]   SIB[7] cls=paneClass title= w=340 h=0 vis=1 rect=[0,1353,340,1353]
+[0:42:47]   SIB[8] cls=paneClass title= w=340 h=27 vis=1 rect=[0,170,340,197]
+[0:42:47]   -> TAB BAR
+[0:42:47]   SIB[9] cls=paneClassDC title=Slide Notes w=2194 h=63 vis=1 rect=[346,1290,2540,1353]
+[0:42:47]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:42:47]   SIB[11] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1353,2560,1353]
+[0:42:47]   -> MAIN SLIDE (by area)
+[0:42:47]   -> NOTES (by area)
+[0:42:47] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=0 splitterW=6
+[0:43:32] OUR PANEL rect=[0,197,340,1353]
+[0:43:32]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[340,170,346,1353]
+[0:43:32]   -> VERTICAL SPLITTER
+[0:43:32]   SIB[1] cls=splitterBar title= w=2214 h=6 vis=1 rect=[346,1284,2560,1290]
+[0:43:32]   -> HORIZONTAL SPLITTER
+[0:43:32]   SIB[2] cls=paneClassDC title=Slide w=2214 h=1114 vis=1 rect=[346,170,2560,1284]
+[0:43:32]   SIB[3] cls=paneClass title= w=0 h=1114 vis=1 rect=[2560,170,2560,1284]
+[0:43:32]   SIB[4] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1284,2560,1284]
+[0:43:32]   SIB[6] cls=paneClass title= w=0 h=1156 vis=1 rect=[340,197,340,1353]
+[0:43:32]   -> GUTTER
+[0:43:32]   SIB[7] cls=paneClass title= w=340 h=0 vis=1 rect=[0,1353,340,1353]
+[0:43:32]   SIB[8] cls=paneClass title= w=340 h=27 vis=1 rect=[0,170,340,197]
+[0:43:32]   -> TAB BAR
+[0:43:32]   SIB[9] cls=paneClassDC title=Slide Notes w=2194 h=63 vis=1 rect=[346,1290,2540,1353]
+[0:43:32]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:43:32]   SIB[11] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1353,2560,1353]
+[0:43:32]   -> MAIN SLIDE (by area)
+[0:43:32]   -> NOTES (by area)
+[0:43:32] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=0 splitterW=6
+[0:43:51] OUR PANEL rect=[0,197,340,1353]
+[0:43:51]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[340,170,346,1353]
+[0:43:51]   -> VERTICAL SPLITTER
+[0:43:51]   SIB[1] cls=splitterBar title= w=2214 h=6 vis=1 rect=[346,1284,2560,1290]
+[0:43:51]   -> HORIZONTAL SPLITTER
+[0:43:51]   SIB[2] cls=paneClassDC title=Slide w=2214 h=1114 vis=1 rect=[346,170,2560,1284]
+[0:43:51]   SIB[3] cls=paneClass title= w=0 h=1114 vis=1 rect=[2560,170,2560,1284]
+[0:43:51]   SIB[4] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1284,2560,1284]
+[0:43:51]   SIB[6] cls=paneClass title= w=0 h=1156 vis=1 rect=[340,197,340,1353]
+[0:43:51]   -> GUTTER
+[0:43:51]   SIB[7] cls=paneClass title= w=340 h=0 vis=1 rect=[0,1353,340,1353]
+[0:43:51]   SIB[8] cls=paneClass title= w=340 h=27 vis=1 rect=[0,170,340,197]
+[0:43:51]   -> TAB BAR
+[0:43:51]   SIB[9] cls=paneClassDC title=Slide Notes w=2194 h=63 vis=1 rect=[346,1290,2540,1353]
+[0:43:51]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:43:51]   SIB[11] cls=paneClass title= w=2214 h=0 vis=1 rect=[346,1353,2560,1353]
+[0:43:51]   -> MAIN SLIDE (by area)
+[0:43:51]   -> NOTES (by area)
+[0:43:51] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=0 splitterW=6
+[0:57:25] OUR PANEL rect=[0,197,356,1353]
+[0:57:25]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[376,170,382,1353]
+[0:57:25]   -> VERTICAL SPLITTER
+[0:57:25]   SIB[1] cls=splitterBar title= w=2178 h=6 vis=1 rect=[382,1284,2560,1290]
+[0:57:25]   -> HORIZONTAL SPLITTER
+[0:57:25]   SIB[2] cls=paneClassDC title=Slide w=2158 h=1114 vis=1 rect=[382,170,2540,1284]
+[0:57:25]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[0:57:25]   SIB[4] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1284,2560,1284]
+[0:57:25]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[356,197,376,1353]
+[0:57:25]   -> GUTTER
+[0:57:25]   SIB[7] cls=paneClass title= w=376 h=0 vis=1 rect=[0,1353,376,1353]
+[0:57:25]   SIB[8] cls=paneClass title= w=376 h=27 vis=1 rect=[0,170,376,197]
+[0:57:25]   -> TAB BAR
+[0:57:25]   SIB[9] cls=paneClassDC title=Slide Notes w=2158 h=63 vis=1 rect=[382,1290,2540,1353]
+[0:57:25]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[0:57:25]   SIB[11] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1353,2560,1353]
+[0:57:25]   -> MAIN SLIDE (by area)
+[0:57:25]   -> NOTES (by area)
+[0:57:25] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[1:0:10] OUR PANEL rect=[0,197,356,1353]
+[1:0:10]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[376,170,382,1353]
+[1:0:10]   -> VERTICAL SPLITTER
+[1:0:10]   SIB[1] cls=splitterBar title= w=2178 h=6 vis=1 rect=[382,1284,2560,1290]
+[1:0:10]   -> HORIZONTAL SPLITTER
+[1:0:10]   SIB[2] cls=paneClassDC title=Slide w=2158 h=1114 vis=1 rect=[382,170,2540,1284]
+[1:0:10]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[1:0:10]   SIB[4] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1284,2560,1284]
+[1:0:10]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[356,197,376,1353]
+[1:0:10]   -> GUTTER
+[1:0:10]   SIB[7] cls=paneClass title= w=376 h=0 vis=1 rect=[0,1353,376,1353]
+[1:0:10]   SIB[8] cls=paneClass title= w=376 h=27 vis=1 rect=[0,170,376,197]
+[1:0:10]   -> TAB BAR
+[1:0:10]   SIB[9] cls=paneClassDC title=Slide Notes w=2158 h=63 vis=1 rect=[382,1290,2540,1353]
+[1:0:10]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[1:0:10]   SIB[11] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1353,2560,1353]
+[1:0:10]   -> MAIN SLIDE (by area)
+[1:0:10]   -> NOTES (by area)
+[1:0:10] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[1:5:37] OUR PANEL rect=[0,197,356,1353]
+[1:5:37]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[376,170,382,1353]
+[1:5:37]   -> VERTICAL SPLITTER
+[1:5:37]   SIB[1] cls=splitterBar title= w=2178 h=6 vis=1 rect=[382,1284,2560,1290]
+[1:5:37]   -> HORIZONTAL SPLITTER
+[1:5:37]   SIB[2] cls=paneClassDC title=Slide w=2158 h=1114 vis=1 rect=[382,170,2540,1284]
+[1:5:37]   SIB[3] cls=paneClass title= w=20 h=1114 vis=1 rect=[2540,170,2560,1284]
+[1:5:37]   SIB[4] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1284,2560,1284]
+[1:5:37]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[356,197,376,1353]
+[1:5:37]   -> GUTTER
+[1:5:37]   SIB[7] cls=paneClass title= w=376 h=0 vis=1 rect=[0,1353,376,1353]
+[1:5:37]   SIB[8] cls=paneClass title= w=376 h=27 vis=1 rect=[0,170,376,197]
+[1:5:37]   -> TAB BAR
+[1:5:37]   SIB[9] cls=paneClassDC title=Slide Notes w=2158 h=63 vis=1 rect=[382,1290,2540,1353]
+[1:5:37]   SIB[10] cls=paneClass title= w=20 h=63 vis=1 rect=[2540,1290,2560,1353]
+[1:5:37]   SIB[11] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1353,2560,1353]
+[1:5:37]   -> MAIN SLIDE (by area)
+[1:5:37]   -> NOTES (by area)
+[1:5:37] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=OK tabBar=OK  gutterW=20 splitterW=6
+[1:13:45] RE-INIT: starting
+[1:13:47] OUR PANEL rect=[0,197,356,1353]
+[1:13:47]   SIB[0] cls=splitterBar title= w=6 h=1183 vis=1 rect=[376,170,382,1353]
+[1:13:47]   -> VERTICAL SPLITTER
+[1:13:47]   SIB[1] cls=splitterBar title= w=2178 h=6 vis=1 rect=[382,1347,2560,1353]
+[1:13:47]   -> HORIZONTAL SPLITTER
+[1:13:47]   SIB[2] cls=paneClassDC title=Slide w=2158 h=1177 vis=1 rect=[382,170,2540,1347]
+[1:13:47]   SIB[3] cls=paneClass title= w=20 h=1177 vis=1 rect=[2540,170,2560,1347]
+[1:13:47]   SIB[4] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1347,2560,1347]
+[1:13:47]   SIB[6] cls=paneClass title= w=20 h=1156 vis=1 rect=[356,197,376,1353]
+[1:13:47]   -> GUTTER
+[1:13:47]   SIB[7] cls=paneClass title= w=376 h=0 vis=1 rect=[0,1353,376,1353]
+[1:13:47]   SIB[8] cls=paneClass title= w=376 h=27 vis=1 rect=[0,170,376,197]
+[1:13:47]   -> TAB BAR
+[1:13:47]   SIB[9] cls=paneClassDC title=Slide Notes w=2158 h=0 vis=1 rect=[382,1353,2540,1353]
+[1:13:47]   SIB[10] cls=paneClass title= w=20 h=0 vis=1 rect=[2540,1353,2560,1353]
+[1:13:47]   SIB[11] cls=paneClass title= w=2178 h=0 vis=1 rect=[382,1353,2560,1353]
+[1:13:47]   -> MAIN SLIDE (by area)
+[1:13:47] INIT SUMMARY: panel=OK gutter=OK splitter=OK mainSlide=OK hSplitter=OK notes=MISSING tabBar=OK  gutterW=20 splitterW=6

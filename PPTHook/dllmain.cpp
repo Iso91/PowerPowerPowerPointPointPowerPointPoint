@@ -61,6 +61,7 @@ int g_currentSlide      = 1;
 int g_bestPaneScore     = -2147483647;
 int g_bestMainArea      = 0;
 int g_firstVisibleIndex = 0;  // first visible ROW index (0-based)
+int g_firstVisibleCol   = 0;  // first visible COLUMN index (0-based)
 
 // Splitter drag state
 static bool g_dragging        = false;
@@ -181,6 +182,191 @@ int InvokeInt(IDispatch* d, LPCWSTR name) {
     if (r.vt == VT_I4) return r.lVal;
     if (r.vt == VT_R8) return (int)r.dblVal;
     return 0;
+}
+
+std::wstring InvokeStr(IDispatch* d, LPCWSTR name) {
+    if (!d) return L"";
+    DISPID id; BSTR b = SysAllocString(name);
+    HRESULT hr = d->GetIDsOfNames(IID_NULL, &b, 1, LOCALE_USER_DEFAULT, &id);
+    SysFreeString(b); if (FAILED(hr)) return L"";
+    VARIANT r; VariantInit(&r); DISPPARAMS e = {};
+    d->Invoke(id, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_PROPERTYGET, &e, &r, nullptr, nullptr);
+    std::wstring result;
+    if (r.vt == VT_BSTR && r.bstrVal) result = r.bstrVal;
+    VariantClear(&r);
+    return result;
+}
+
+// Forward declarations for formula evaluation
+int GetPPTCurrentSlide();
+
+// -- Formula evaluation --------------------------------------------------------
+
+std::wstring ReadSlideText(int slideIndex) {
+    IDispatch* pApp = GetPPTApp(); if (!pApp) return L"";
+    IDispatch* pres = Invoke(pApp, L"ActivePresentation");
+    IDispatch* slides = pres ? Invoke(pres, L"Slides") : nullptr;
+    std::wstring text;
+    if (slides) {
+        VARIANT vi; vi.vt = VT_I4; vi.lVal = slideIndex;
+        DISPPARAMS dp = { &vi, nullptr, 1, 0 };
+        IDispatch* slide = Invoke(slides, L"Item", &dp);
+        IDispatch* shapes = slide ? Invoke(slide, L"Shapes") : nullptr;
+        int count = shapes ? InvokeInt(shapes, L"Count") : 0;
+        for (int i = 1; i <= count && text.empty(); i++) {
+            VARIANT si; si.vt = VT_I4; si.lVal = i;
+            DISPPARAMS sp = { &si, nullptr, 1, 0 };
+            IDispatch* shape = Invoke(shapes, L"Item", &sp);
+            if (shape) {
+                int htf = InvokeInt(shape, L"HasTextFrame");
+                if (htf) {
+                    IDispatch* tf = Invoke(shape, L"TextFrame");
+                    IDispatch* tr = tf ? Invoke(tf, L"TextRange") : nullptr;
+                    if (tr) { text = InvokeStr(tr, L"Text"); tr->Release(); }
+                    if (tf) tf->Release();
+                }
+                shape->Release();
+            }
+        }
+        if (shapes) shapes->Release();
+        if (slide) slide->Release();
+        slides->Release();
+    }
+    if (pres) pres->Release();
+    pApp->Release();
+    return text;
+}
+
+void SetSlideText(int slideIndex, const std::wstring& newText) {
+    IDispatch* pApp = GetPPTApp(); if (!pApp) return;
+    IDispatch* pres = Invoke(pApp, L"ActivePresentation");
+    IDispatch* slides = pres ? Invoke(pres, L"Slides") : nullptr;
+    if (slides) {
+        VARIANT vi; vi.vt = VT_I4; vi.lVal = slideIndex;
+        DISPPARAMS dp = { &vi, nullptr, 1, 0 };
+        IDispatch* slide = Invoke(slides, L"Item", &dp);
+        IDispatch* shapes = slide ? Invoke(slide, L"Shapes") : nullptr;
+        int count = shapes ? InvokeInt(shapes, L"Count") : 0;
+        for (int i = 1; i <= count; i++) {
+            VARIANT si; si.vt = VT_I4; si.lVal = i;
+            DISPPARAMS sp = { &si, nullptr, 1, 0 };
+            IDispatch* shape = Invoke(shapes, L"Item", &sp);
+            if (shape) {
+                int htf = InvokeInt(shape, L"HasTextFrame");
+                if (htf) {
+                    IDispatch* tf = Invoke(shape, L"TextFrame");
+                    IDispatch* tr = tf ? Invoke(tf, L"TextRange") : nullptr;
+                    if (tr) {
+                        // PROPERTYPUT on TextRange.Text
+                        DISPID propId; BSTR bName = SysAllocString(L"Text");
+                        HRESULT hr = tr->GetIDsOfNames(IID_NULL, &bName, 1, LOCALE_USER_DEFAULT, &propId);
+                        SysFreeString(bName);
+                        if (SUCCEEDED(hr)) {
+                            VARIANT val; val.vt = VT_BSTR; val.bstrVal = SysAllocString(newText.c_str());
+                            DISPID putId = DISPID_PROPERTYPUT;
+                            DISPPARAMS putDp = { &val, &putId, 1, 1 };
+                            tr->Invoke(propId, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_PROPERTYPUT, &putDp, nullptr, nullptr, nullptr);
+                            SysFreeString(val.bstrVal);
+                        }
+                        tr->Release();
+                    }
+                    if (tf) tf->Release();
+                    if (shapes) shapes->Release();
+                    if (slide) slide->Release();
+                    slides->Release();
+                    if (pres) pres->Release();
+                    pApp->Release();
+                    return;
+                }
+                shape->Release();
+            }
+        }
+        if (shapes) shapes->Release();
+        if (slide) slide->Release();
+        slides->Release();
+    }
+    if (pres) pres->Release();
+    pApp->Release();
+}
+
+int ParseCellRef(const std::wstring& ref) {
+    // Parse column letters and row digits from e.g. "A4", "C3", "AA1"
+    int col = 0; size_t i = 0;
+    while (i < ref.size() && iswalpha(ref[i])) {
+        col = col * 26 + (towupper(ref[i]) - L'A');
+        i++;
+    }
+    if (i == 0 || i == ref.size()) return -1;
+    int row = 0;
+    while (i < ref.size() && iswdigit(ref[i])) {
+        row = row * 10 + (ref[i] - L'0');
+        i++;
+    }
+    if (i != ref.size() || row < 1) return -1;
+    return col * ROWS_PER_COL + row; // 1-based slide index
+}
+
+bool ParseNumber(const std::wstring& s, double* out) {
+    if (s.empty()) return false;
+    wchar_t* end = nullptr;
+    *out = wcstod(s.c_str(), &end);
+    return end == s.c_str() + s.size();
+}
+
+bool ResolveOperand(const std::wstring& s, double* out) {
+    if (ParseNumber(s, out)) return true;
+    int slideIdx = ParseCellRef(s);
+    if (slideIdx < 0) return false;
+    std::wstring cellText = ReadSlideText(slideIdx);
+    // If cell contains a formula result like "5+3=8", extract the part after the last '='
+    size_t eqPos = cellText.rfind(L'=');
+    if (eqPos != std::wstring::npos && eqPos + 1 < cellText.size())
+        cellText = cellText.substr(eqPos + 1);
+    return ParseNumber(cellText, out);
+}
+
+std::wstring EvaluateExpression(const std::wstring& expr) {
+    // Find operator scanning from index 1 (to skip leading minus)
+    int opPos = -1;
+    wchar_t op = 0;
+    for (size_t i = 1; i < expr.size(); i++) {
+        wchar_t c = expr[i];
+        if (c == L'+' || c == L'-' || c == L'*' || c == L'/') {
+            opPos = (int)i;
+            op = c;
+            break;
+        }
+    }
+    if (opPos < 0) return L"#ERR";
+    std::wstring left = expr.substr(0, opPos);
+    std::wstring right = expr.substr(opPos + 1);
+    double a, b;
+    if (!ResolveOperand(left, &a) || !ResolveOperand(right, &b)) return L"#ERR";
+    double result;
+    switch (op) {
+    case L'+': result = a + b; break;
+    case L'-': result = a - b; break;
+    case L'*': result = a * b; break;
+    case L'/':
+        if (b == 0.0) return L"#DIV/0!";
+        result = a / b; break;
+    default: return L"#ERR";
+    }
+    wchar_t buf[64];
+    swprintf_s(buf, L"%.10g", result);
+    return buf;
+}
+
+void HandleFormulaEvaluation() {
+    int slideIndex = GetPPTCurrentSlide();
+    if (slideIndex <= 0) return;
+    std::wstring text = ReadSlideText(slideIndex);
+    if (text.empty() || text.back() != L'=') return;
+    std::wstring expr = text.substr(0, text.size() - 1);
+    if (expr.empty()) return;
+    std::wstring result = EvaluateExpression(expr);
+    SetSlideText(slideIndex, expr + L"=" + result);
+    if (g_slidePanel) SetTimer(g_slidePanel, 2, 100, NULL);
 }
 
 // Single reusable temp file path
@@ -357,17 +543,27 @@ void ClampScroll(HWND h) {
     int maxFirst = max(0, ROWS_PER_COL - visRows);
     if (g_firstVisibleIndex > maxFirst) g_firstVisibleIndex = maxFirst;
     if (g_firstVisibleIndex < 0) g_firstVisibleIndex = 0;
+    int visCols = GetFullVisCols(h);
+    int maxFirstCol = max(0, GetNumCols() - visCols);
+    if (g_firstVisibleCol > maxFirstCol) g_firstVisibleCol = maxFirstCol;
+    if (g_firstVisibleCol < 0) g_firstVisibleCol = 0;
 }
 
 void EnsureVisible(HWND h) {
     int sel = g_currentSlide - 1;
     if (sel < 0 || g_thumbs.empty()) return;
     int selRow = sel % ROWS_PER_COL;
+    int selCol = sel / ROWS_PER_COL;
     int visRows = GetFullVisRows(h);
+    int visCols = GetFullVisCols(h);
     if (selRow < g_firstVisibleIndex)
         g_firstVisibleIndex = selRow;
     else if (selRow >= g_firstVisibleIndex + visRows)
         g_firstVisibleIndex = selRow - visRows + 1;
+    if (selCol < g_firstVisibleCol)
+        g_firstVisibleCol = selCol;
+    else if (selCol >= g_firstVisibleCol + visCols)
+        g_firstVisibleCol = selCol - visCols + 1;
     ClampScroll(h);
 }
 
@@ -418,7 +614,7 @@ void DrawGrid(HDC dc, HWND h) {
     if (g_thumbs.empty()) return;
 
     int visRows = min(GetDrawRows(h), ROWS_PER_COL - g_firstVisibleIndex);
-    int visCols = min(GetDrawCols(h), GetNumCols());
+    int visCols = min(GetDrawCols(h), GetNumCols() - g_firstVisibleCol);
     if (visRows <= 0 || visCols <= 0) return;
 
     int fontSize = ZFontSize();
@@ -439,7 +635,7 @@ void DrawGrid(HDC dc, HWND h) {
     for (int c = 0; c < visCols; c++) {
         int x = headerW + c*cellW;
         RECT r = {x,0,x+cellW,headerH}; FillRect(dc,&r,hBr);
-        char lbl[8]; ColLabel(c,lbl,8); DrawTextA(dc,lbl,-1,&r,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+        char lbl[8]; ColLabel(g_firstVisibleCol + c,lbl,8); DrawTextA(dc,lbl,-1,&r,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
         HPEN p = CreatePen(PS_SOLID,1,DIVIDER); SelectObject(dc,p);
         MoveToEx(dc,x+cellW-1,0,NULL); LineTo(dc,x+cellW-1,headerH); DeleteObject(p);
     }
@@ -470,7 +666,7 @@ void DrawGrid(HDC dc, HWND h) {
     HBRUSH thumbBr = CreateSolidBrush(THUMB_BG);
     for (int col = 0; col < visCols; col++) {
         for (int row = 0; row < visRows; row++) {
-            int idx = col * ROWS_PER_COL + (g_firstVisibleIndex + row);
+            int idx = (g_firstVisibleCol + col) * ROWS_PER_COL + (g_firstVisibleIndex + row);
             if (idx < 0 || idx >= (int)g_thumbs.size()) continue;
             int x = headerW + col*cellW + PADDING/2;
             int y = headerH + row*cellH + PADDING/2;
@@ -523,7 +719,7 @@ bool HandleClick(HWND h, int mx, int my) {
     int thumbW = ZThumbW(), thumbH = ZThumbH();
     int col = (mx - headerW) / cellW;
     int row = (my - headerH) / cellH;
-    int idx = col * ROWS_PER_COL + (g_firstVisibleIndex + row);
+    int idx = (g_firstVisibleCol + col) * ROWS_PER_COL + (g_firstVisibleIndex + row);
     if (idx < 0 || idx >= (int)g_thumbs.size()) return false;
     int x = headerW + col*cellW + PADDING/2;
     int y = headerH + row*cellH + PADDING/2;
@@ -752,10 +948,39 @@ LRESULT CALLBACK HookedSplitterWndProc(HWND h, UINT msg, WPARAM wp, LPARAM lp) {
 // -- Content-area WndProcs (main slide, h-splitter, notes, tab bar) -----------
 // These enforce x and cx when g_desiredPaneW > 0.
 static LRESULT HandleContentWindow(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp, WNDPROC orig) {
-    // Keep notes pane and h-splitter hidden
-    if ((hwnd == g_notesPane || hwnd == g_hSplitter) && msg == WM_SHOWWINDOW && wp == TRUE) {
-        ShowWindow(hwnd, SW_HIDE);
-        return 0;
+    // Force notes pane to stay invisible: zero size, no scrollbars, no painting
+    if (hwnd == g_notesPane) {
+        if (msg == WM_WINDOWPOSCHANGING) {
+            WINDOWPOS* wp2 = reinterpret_cast<WINDOWPOS*>(lp);
+            if (wp2) {
+                wp2->cx = 0; wp2->cy = 0;
+                wp2->flags &= ~(SWP_SHOWWINDOW | SWP_NOSIZE);
+                wp2->flags |= SWP_HIDEWINDOW;
+            }
+            return 0;
+        }
+        if (msg == WM_NCCALCSIZE || msg == WM_NCPAINT || msg == WM_PAINT ||
+            msg == WM_VSCROLL || msg == WM_HSCROLL || msg == WM_ERASEBKGND)
+            return 0;
+        if (msg == WM_STYLECHANGING && wp == GWL_STYLE) {
+            STYLESTRUCT* ss = reinterpret_cast<STYLESTRUCT*>(lp);
+            ss->styleNew &= ~(WS_VSCROLL | WS_HSCROLL | WS_VISIBLE);
+            return 0;
+        }
+        if (msg == WM_SHOWWINDOW && wp == TRUE)
+            return 0; // already handled above but belt-and-suspenders
+    }
+
+    if (hwnd == g_hSplitter) {
+        if (msg == WM_WINDOWPOSCHANGING) {
+            WINDOWPOS* wp2 = reinterpret_cast<WINDOWPOS*>(lp);
+            if (wp2) {
+                wp2->cx = 0; wp2->cy = 0;
+                wp2->flags &= ~(SWP_SHOWWINDOW | SWP_NOSIZE);
+                wp2->flags |= SWP_HIDEWINDOW;
+            }
+            return 0;
+        }
     }
 
     if (msg == WM_WINDOWPOSCHANGING && g_desiredPaneW > 0 && !g_dragging) {
@@ -854,6 +1079,7 @@ static void UnhookAll() {
     g_slideCount = 0;
     g_currentSlide = 1;
     g_firstVisibleIndex = 0;
+    g_firstVisibleCol = 0;
 }
 
 DWORD WINAPI InitThread(LPVOID); // forward declaration
@@ -882,6 +1108,15 @@ static LRESULT CALLBACK KeyboardHookProc(int code, WPARAM wp, LPARAM lp) {
         if (wp == 'R' && (GetKeyState(VK_CONTROL) & 0x8000) && (GetKeyState(VK_SHIFT) & 0x8000)) {
             CreateThread(NULL, 0, ReInitThread, NULL, 0, NULL);
             return 1;
+        }
+        // '=' key: trigger formula evaluation when NOT in panel
+        if (!g_panelIsActive && g_slidePanel) {
+            BYTE kbState[256]; GetKeyboardState(kbState);
+            wchar_t ch[4] = {};
+            int ret = ToUnicode((UINT)wp, (lp >> 16) & 0xFF, kbState, ch, 4, 0);
+            if (ret == 1 && ch[0] == L'=') {
+                PostMessage(g_slidePanel, WM_APP + 10, 0, 0);
+            }
         }
         // Arrow/nav keys: when panel is active (last clicked)
         if (g_panelIsActive && g_slidePanel) {
@@ -1018,10 +1253,22 @@ LRESULT CALLBACK HookedPanelWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     case WM_MOUSEWHEEL: {
         int delta = GET_WHEEL_DELTA_WPARAM(wp);
         if (GetKeyState(VK_CONTROL) & 0x8000) {
+            // Get mouse position relative to client area
+            POINT mp; GetCursorPos(&mp); ScreenToClient(hwnd, &mp);
+            int headerW = ZHeaderW(), headerH = ZHeaderH();
+            // Fractional row/col under cursor before zoom
+            float oldCellW = (float)ZCellW(), oldCellH = (float)ZCellH();
+            float fracCol = g_firstVisibleCol + (mp.x - headerW) / oldCellW;
+            float fracRow = g_firstVisibleIndex + (mp.y - headerH) / oldCellH;
+            // Apply zoom
             float step = 0.1f;
             g_zoomLevel += (delta > 0) ? step : -step;
             if (g_zoomLevel < 0.25f) g_zoomLevel = 0.25f;
             if (g_zoomLevel > 3.0f) g_zoomLevel = 3.0f;
+            // Adjust scroll so same position stays under cursor
+            float newCellW = (float)ZCellW(), newCellH = (float)ZCellH();
+            g_firstVisibleCol = (int)(fracCol - (mp.x - headerW) / newCellW);
+            g_firstVisibleIndex = (int)(fracRow - (mp.y - headerH) / newCellH);
             ClampScroll(hwnd);
             InvalidateRect(hwnd, NULL, FALSE);
             return 0;
@@ -1051,6 +1298,11 @@ LRESULT CALLBACK HookedPanelWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     }
 
     case WM_TIMER:
+        if (wp == 10) {
+            KillTimer(hwnd, 10);
+            HandleFormulaEvaluation();
+            return 0;
+        }
         if (wp == 2) {
             KillTimer(hwnd, 2);
             int pptSlide = GetPPTCurrentSlide();
@@ -1081,6 +1333,10 @@ LRESULT CALLBACK HookedPanelWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 InvalidateRect(hwnd, NULL, FALSE);
             }
         }
+        return 0;
+
+    case WM_APP + 10:
+        SetTimer(hwnd, 10, 150, NULL);
         return 0;
 
     case WM_SETFOCUS:

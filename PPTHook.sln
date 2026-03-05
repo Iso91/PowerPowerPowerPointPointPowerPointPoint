@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PPTHook", "PPTHook\PPTHook.vcxproj", "{C9359FF8-0730-4B23-918E-378B7AA7ABE1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Injector", "Injector\Injector.vcxproj", "{1BFE0CCD-E4D2-4B9E-902E-AECF1F2E6446}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9359FF8-0730-4B23-918E-378B7AA7ABE1} = {C9359FF8-0730-4B23-918E-378B7AA7ABE1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
