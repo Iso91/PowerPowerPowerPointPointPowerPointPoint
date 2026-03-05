@@ -86,11 +86,10 @@ int ZThumbW()   { return (int)(MAX_THUMB_W * g_zoomLevel); }
 int ZThumbH()   { return (int)(MAX_THUMB_H * g_zoomLevel); }
 int ZCellW()    { return ZThumbW() + PADDING; }
 int ZCellH()    { return ZThumbH() + PADDING; }
-// Headers and font stay readable at all zoom levels:
-// at zoom 1.0 = base size, zooming out keeps them large, zooming in shrinks them relative to cells
-int ZHeaderH()  { return HEADER_H; }
-int ZHeaderW()  { return HEADER_W; }
-int ZFontSize() { return 11; }
+// Headers/font: gentle inverse scaling — bigger labels when zoomed out
+int ZHeaderH()  { return 20; }
+int ZHeaderW()  { return 28; }
+int ZFontSize() { return max(14, (int)(20 * g_zoomLevel)); }
 
 // -- logging -------------------------------------------------------------------
 void LogDebug(const wchar_t* msg) {
